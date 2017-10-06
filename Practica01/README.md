@@ -76,3 +76,119 @@ No se observan patrones o repeticiones aparentes.
 
 
 ### DES-OFB input.bin
+
+Para des-ofb necesitamos establecer una clave y su vector de inicialización.
+
+#### DES-OFB input.bin debil
+
+Clave debil: 0101010101010101
+
+Vector inicialización:  0000000000000000
+
+
+        openssl enc -des-ofb -in ./input.bin -out ./input.bin.des.ofb.debil -K 0101010101010101 -iv 0000000000000000
+
+![Ejercicio 3](img/input.bin.des.ofb.debil.png)
+
+Se puede observar que se repite el mismo patrón para todo el fichero, tambien que la mitad derecha del fichero es igual al fichero de entrada, al igual que 
+ocurria con DES-CBC usando clave debil.
+
+
+#### DES-OFB input.bin semidebil
+
+
+Clave debil: 01FE01FE01FE01F
+
+Vector inicialización:  0000000000000000
+
+        openssl enc -des-ofb -in ./input.bin -out ./input.bin.des.ofb.semidebil -K 01FE01FE01FE01F -iv 0000000000000000
+
+![Ejercicio 3](img/ejercicio3_des.ofb.semidebil.png)
+
+No soy capaz de encontrar patrones aparentes con este modo de cifrado.
+
+
+## Ejercicio 4
+
+Cifrad input.bin e input1.bin en modo DES-ECB, pero esta vez usando una clave que no sea ni debil ni semidebil, explicad los resultados.
+
+En este caso usaremos una clave que no sea ni debil, ni semidebil como puede ser,
+
+Clave: 045FA982B261C43
+
+
+### DES-ECB input.bin
+Procedemos como en el ejercicio anterior para cifrar con DES-ECB pero en este caso modificando la clave,
+
+        openssl enc -des-ecb -in ./input.bin -out ./input.bin.des.ecb.dificil -K 045FA982B261C43
+
+        openssl enc -des-ecb -in ./input1.bin -out ./input1.bin.des.ecb.dificil -K 045FA982B261C43
+        
+
+![Ejercicio 4](img/ejercicio4_input.bin.des.ecb.dificil.png)
+![Ejercicio 4](img/ejercicio4_input1.bin.des.ecb.dificil.png)
+
+Al igual que nos pasaba en el ejercicio 3 con este modo, somos capaces de observar los patrones del cifrado de bloque de tamaño 0xf
+
+## Ejercicio 5
+
+Cifrad input.bin e input1.bin con DES en modo CBC, con clave y vector de inicialización a elegir. Comparar los resultados con el ejercicio anterior.
+
+Para la clave voy a usar la misma que en el ejercicio anterior y el vector de inicialización todo 0.
+
+Clave: 045FA982B261C43
+
+Vector: 0000000000000000
+
+        openssl enc -des-cbc -in ./input.bin -out ./input.bin.des.cbc.dificil -K 045FA982B261C43 -iv 0000000000000000
+
+        openssl enc -des-cbc -in ./input1.bin -out ./input1.bin.des.cbc.dificil -K 045FA982B261C43 -iv 0000000000000000
+
+
+![Ejercicio 5](img/ejercicio5.png)
+
+En este caso la primera diferencia es que no se ven los bloques iguales, debido a que uno sirve de entrada del siguiente, por lo que no se ven patrones aparentes.
+
+
+## Ejercicio 6
+
+Repetid los puntos 5 y 6 con AES-128 y AES-256
+
+### AES-128-ECB
+
+Para este caso usaremos una clave que no sea ni debil, ni semidebil como en el ejercicio anterior,
+
+Clave: 045FA982B261C43
+
+        openssl enc -aes-128-ecb -in ./input.bin -out ./input.bin.aes128.ecb.dificil -K 045FA982B261C43
+        openssl enc -aes-128-ecb -in ./input1.bin -out ./input1.bin.aes128.ecb.dificil -K 045FA982B261C43
+
+![Ejercicio 6](img/ejercicio6_aes128_ecb.png)
+
+En input.bin se puede ver que todos son iguales excepto la ultima, es decir desde 0x80 hasta 0x8f, debido a la ultima ronda de cifrado.
+En input1.bin, ocurre lo mismo y tambien la los primera linea es distinta, debido a que teniamos un 1 en uno de los bits.
+
+### AES-256-ECB
+
+Clave: 045FA982B261C43
+
+        openssl enc -aes-256-ecb -in ./input.bin -out ./input.bin.aes256.ecb.dificil -K 045FA982B261C43
+        openssl enc -aes-256-ecb -in ./input1.bin -out ./input1.bin.aes256.ecb.dificil -K 045FA982B261C43
+
+![Ejercicio 6](img/ejercicio6_aes256_ecb.png)
+
+Obtenemos las mismas coincidencias que con AES-128-ECB.
+
+
+### AES-128-CBC
+
+### AES-256-CBC
+
+
+
+
+
+
+
+
+
