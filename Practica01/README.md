@@ -180,9 +180,133 @@ Clave: 045FA982B261C43
 Obtenemos las mismas coincidencias que con AES-128-ECB.
 
 
+
 ### AES-128-CBC
 
+Clave: 045FA982B261C43
+Vector de inicialización: 0000000000000000
+
+        openssl enc -aes-128-cbc -in ./input.bin -out ./input.bin.aes128.cbc.dificil -K 045FA982B261C43 -iv 0000000000000000
+
+![Ejercicio 6](img/input.bin.aes128.cbc.dificil.png)
+
+        openssl enc -aes-128-cbc -in ./input1.bin -out ./input1.bin.aes128.cbc.dificil -K 045FA982B261C43 -iv 0000000000000000
+
+![Ejercicio 6](img/input1.bin.aes128.cbc.dificil.png)
+
+En ambos modos no he sido capaz de encontrar patrones aparentes, o similitudes con los originales.
+
+
+
 ### AES-256-CBC
+
+Clave: 045FA982B261C43
+Vector de inicialización: 0000000000000000
+
+        openssl enc -aes-256-cbc -in ./input.bin -out ./input.bin.aes256.cbc.dificil -K 045FA982B261C43 -iv 0000000000000000
+
+![Ejercicio 6](img/input.bin.aes256.cbc.dificil.png)
+
+        openssl enc -aes-256-cbc -in ./input1.bin -out ./input1.bin.aes256.cbc.dificil -K 045FA982B261C43 -iv 0000000000000000
+
+![Ejercicio 6](img/input1.bin.aes256.cbc.dificil.png)
+
+Al igual que en AES128-CBC no he sido capaz de encontrar nada de similitudes.
+
+
+## Ejercicio 7
+
+Cifrad input.bin con AES-192 en modo OFB, clave y vector de inicialización a elegir, la salida es output.bin.
+
+Clave: 045FA982B261C43
+Vector de inicialización: 0000000000000000
+
+
+        openssl enc -aes-192-ofb -in ./input.bin -out ./output.bin -K 045FA982B261C43 -iv 0000000000000000
+
+![Ejercicio 7](img/ejercicio7.output.bin.png)
+
+No se ven patrones aparentes al original.
+
+## Ejercicio 8
+
+Desfifra output.bin usando los mismos vectores y claves del ejercicio 7.
+
+Clave: 045FA982B261C43
+Vector de inicialización: 0000000000000000
+
+        openssl aes-192-ofb -d -in output.bin -out descifrado.bin -K 045FA982B261C43 -iv 0000000000000000
+
+![Ejercicio 8](img/ejercicio8.descifrado.png)
+
+Como se puede apreciar obtenemos el fichero original input.bin
+
+## Ejercicio 9
+
+Vuelve a cifrar output.bin en modo aes-192-ofb y su mismo vector y claves, explica el resultado.
+
+        openssl enc -aes-192-ofb -in ./output.bin -out ./output2.bin -K 045FA982B261C43 -iv 0000000000000000
+
+![Ejercicio 9](img/output2.bin.png)
+
+Obtenemos input.bin, cuando se vuelve a cifrar un archivo ya cifrado con la misma clave y vector es como si descifrasemos al ser un algoritmo de cifrado simetrico.
+
+
+## Ejercicio 10
+
+Presentad otro algoritmo simétrico que aparezca en vuestra implementación de openssl.
+
+He elegido el algoritmo de cifrado Blowfish, es un algoritmo de cifrado simetrico  diseñado por Bruce Schneier en 1993.
+
+Blowfish usa bloques de 64 bits y claves que van desde 32 bits hasta 448 bits, codifica en 16 rondas.
+
+
+## Ejercicio 11
+
+Realiza los puntos 3 y 5 con el algoritmo anteriormente presentado.
+
+### Cifrado Blowfish en modo ECB
+
+Clave: 045FA982B261C43
+
+
+        openssl enc -bf-ecb -in input.bin -out input.bin.bf.ecb -K 045FA982B261C43
+
+![Ejercicio 10](img/input.bin.bf.ecb.png)
+
+Se puede apreciar que se repiten los patrones las filas, ya que en el fichero original ocurre eso.
+
+        openssl enc -bf-ecb -in input1.bin -out input1.bin.bf.ecb -K 045FA982B261C43
+
+![Ejercicio 10](img/input1.bin.bf.ecb.png)
+
+Al igual que en el anterior se repiten los patrones donde toda la fila es 0, pero exceptuando la primera fila, ya que no es igual.
+
+### Cifrado Blowfish en modo CBC
+
+Clave: 045FA982B261C43
+Vector de inicialización: 0000000000000000
+
+
+        openssl enc -bf-cbc -in input.bin -out input.bin.bf.cbc -K 045FA982B261C43 -iv 0000000000000000
+
+![Ejercicio 10](img/input.bin.bf.cbc.png)
+
+
+        openssl enc -bf-cbc -in input1.bin -out input1.bin.bf.cbc -K 045FA982B261C43 -iv 0000000000000000
+
+![Ejercicio 10](img/input1.bin.bf.cbc.png)
+
+No he sido capaz de encontrar patrones aparentes en ambos ficheros.
+
+
+
+
+
+
+
+
+
 
 
 
