@@ -40,7 +40,7 @@ Pero este fichero es demasiado grande para cifrarlo mediante RSA, por lo que nos
 
 Diseñad un sistema hibrido, con RSA como sistema de cifrado Asimetrico.
 
-:::bash
+```{r, engine='bash', count_lines}
 
 #!/bin/bash
 
@@ -88,6 +88,7 @@ else
     fi
 fi
 
+```
 
 
 
