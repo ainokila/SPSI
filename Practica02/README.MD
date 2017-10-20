@@ -90,6 +90,27 @@ fi
 
 ```
 
+## Ejercicio 6
+Usando el criptosistema diseñado cifrar y descifrar input.bin
+
+### Cifrado:
+Para poder realizar el cifrado necesitamos:
+    - Clave publica
+    - Elegir modo simetrico
+    - Fichero a cifrar
+
+        ./cifrado.sh enc -aes128 cristianRSApub.pem holi.txt 
+
+
+### Descifrado:
+Para poder realizar el descifrado necesitamos:
+    - Clave privada y contraseña
+    - Fichero sessionkey.cifrado
+
+
+        ./cifrado.sh dec sessionkey.cifrado cristianRSApriv.pem 0123456789 holi.txt.encrypted
+        
+
 
 
 
