@@ -17,7 +17,7 @@ El fichero cristianRSAkey.pem ya contiene la clave privada, por lo que no es nec
 
 ![Ejercicio 2](img/ejercicio2.png)
 
-## Ejercicio 3 
+## Ejercicio 3
 Extraer la clave pública contenida en nombreRSAkey.pem y llamarla nombreRSApub.pem, evidentemente esta clave no debe estar cifrada, mostrar sus valores.
 
         openssl rsa -in cristianRSAkey.pem -out cristianRSApub.pem
@@ -30,13 +30,13 @@ Reutilizando el fichero input.bin de 1024 bits, todos a 0 de la practica anterio
 
 Para cifrarlo realizariamos:
 
-        openssl rsautl -in input.bin -out input.bin.cifrado -inkey cristianRSApub.pem -pubin 
+        openssl rsautl -in input.bin -out input.bin.cifrado -inkey cristianRSApub.pem -pubin
 
 Pero este fichero es demasiado grande para cifrarlo mediante RSA, por lo que nos genera un error que nos informa.
 
 ![Ejercicio 4](img/ejercicio4.png)
 
-## Ejercicio 5 
+## Ejercicio 5
 
 Diseñad un sistema hibrido, con RSA como sistema de cifrado Asimetrico.
 
@@ -44,7 +44,7 @@ Diseñad un sistema hibrido, con RSA como sistema de cifrado Asimetrico.
 
 #!/bin/bash
 
-#. /cifrado.sh enc -aes128 publica.pem holi.txt 
+#. /cifrado.sh enc -aes128 publica.pem holi.txt
 
 if [ "$1" == "enc" ]
 then
@@ -81,7 +81,7 @@ else
         openssl enc -d $cifrado -in $5 -pass pass:$clave -out $new_name
 
 
-        
+
     else
         echo "Use: ./cifrado.sh enc -type public.pem file"
         echo "Use: ./cifrado.sh dec sessionkey.cifrado private.pem key_private file.encrypted"
@@ -99,7 +99,7 @@ Para poder realizar el cifrado necesitamos:
 * Elegir modo simetrico
 * Fichero a cifrar
 
-        ./cifrado.sh enc -aes128 cristianRSApub.pem holi.txt 
+        ./cifrado.sh enc -aes128 cristianRSApub.pem holi.txt
 
 
 ### Descifrado:
@@ -109,24 +109,17 @@ Para poder realizar el descifrado necesitamos:
 
 
         ./cifrado.sh dec sessionkey.cifrado cristianRSApriv.pem 0123456789 holi.txt.encrypted
-        
 
 
+## Ejercicio 7
+Generad un archivo llamado stdECparam.pem, que contenga los parametros de las curvas elipticas vistas en clase.
 
+Utilizaré la curva P-192, en openssl esta nombrada como prime192v1, para generarla en Openssl:
 
+    openssl ecparam -name prime192v1 -genkey -out stdECparam.pem
 
+Para visualizar su contenido ejecutaremos:
 
+    openssl ec -in stdECparam.pem -text -noout
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+![Ejercicio 7](img/ejercicio7.png)
