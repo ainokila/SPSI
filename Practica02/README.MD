@@ -114,7 +114,7 @@ Para poder realizar el descifrado necesitamos:
 ## Ejercicio 7
 Generad un archivo llamado stdECparam.pem, que contenga los parametros de las curvas elipticas vistas en clase.
 
-Utilizaré la curva P-192, en openssl esta nombrada como prime192v1, para generarla en Openssl:
+Utilizaré la curva P-192, en openssl esta nombrada como prime192v1, para generar sus datos en Openssl:
 
     openssl ecparam -name prime192v1 -out stdECparam.pem
 
