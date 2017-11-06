@@ -116,10 +116,44 @@ Generad un archivo llamado stdECparam.pem, que contenga los parametros de las cu
 
 Utilizaré la curva P-192, en openssl esta nombrada como prime192v1, para generarla en Openssl:
 
-    openssl ecparam -name prime192v1 -genkey -out stdECparam.pem
+    openssl ecparam -name prime192v1 -out stdECparam.pem
 
 Para visualizar su contenido ejecutaremos:
 
-    openssl ec -in stdECparam.pem -text -noout
+    cat stdECparam.pem
 
 ![Ejercicio 7](img/ejercicio7.png)
+
+## Ejercicio 8
+Generad una clave para los parametros anteriores en el fichero nombreECkey.pem
+
+Mi fichero se llamara p192ECkey.pem y lo podemos generar,
+
+    openssl ecparam -in stdECparam.pem -genkey -out p192ECkey.pem
+
+Ahora podemos visualizar los datos con,
+
+    openssl ec -in p192ECkey.pem -text -noout
+
+![Ejercicio 8](img/ejercicio8.png)
+
+
+## Ejercicio 9
+"Extraed" la clave privada en un fichero llamado nombreECkey.pem y cifrarlo con 3des.
+
+Anteriormente nuestro fichero ya contenia la clave privada, por lo que solo debemos cifrar ese documento,
+
+    openssl enc -des-ede3-cbc -in p192ECkey.pem -out p192ECkey.pem.encrypted
+
+![Ejercicio 9](img/ejercicio9.png)
+
+Ya tenemos nuestra clave privada cifrada con 3des.
+
+## Ejercicio 10
+Extraed en nombreECpub.pem la clave publica, no hace falta cifrarla.
+
+    openssl ec -in p192ECkey.pem -pubout -out p192ECpub.pem
+
+![Ejercicio 10](img/ejercicio10.png)
+
+De esta manera obtenemos la clave publica.
