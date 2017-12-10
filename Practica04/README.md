@@ -57,6 +57,8 @@ En caso de no tener el fichero anterior, se puede generar de la siguiente manera
 
 ![Ejercicio 4](img/ejercicio4.png)
 
+![Ejercicio 4](img/ejercicio5.png)
+
 ## Ejercicio 5
 
 Cread un certicado para la solicitud anterior utilizando la CA creada.
@@ -65,16 +67,10 @@ Para poder generar el certificado del ejercicio anterior usaré
 
     /usr/lib/ssl/misc/CA.pl -signreq
 
-Una vez firmada la solicitud obtnemos:
-
-![Ejercicio 5](img/ejercicio5.png)
-
-Donde podemos observar que usamos la clave pública DSA y los parametros de la clave.
-
 
 ## Ejercicio 6
 Emplead las opciones -text y -noout para mostrar los valores de todos los certicados y solicitudes de los puntos anteriores, incluyendo el certicado raiz que habr a sido creado junto con la CA
 
-Para poder mostrar los valores de las solicitudes debemos usar el comando :
+Para poder mostrar los valores de las solicitudes debemos usar el comando:
 
     openssl req -in <request> -noout -text
