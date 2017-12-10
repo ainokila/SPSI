@@ -2,137 +2,79 @@
 
 ## Ejercicio 1
 
-Cread una autoridad certicadora. En este caso se premiar a el uso de openssl ca frente a CA.pl, aun- que este u ltimo comando es admisible.
+Cread una autoridad certicadora. En este caso se premiar a el uso de openssl ca frente a CA.pl, aunque este último comando es admisible.
 
+Para crear una autoridad certificadora lo podemos realizar de dos maneras, una con el script de CA.pl o mediante la creación de claves y certificado.
 
-## Ejercicio 2
+En mi caso lo voy a realizar a través del script de CA.pl:
 
-Cread una solicitud de certi cado que incluya la ge- neraci on de claves en la misma
-
-## Ejercicio 3
-
-Cread un certicado para la solicitud anterior em- pleando la CA creada en el primer punto
-
-## Ejercicio 4
-Cread una solicitud de certi cado para cualquiera de las claves que hab eis generado en las pr acticas anteriores, excepto las RSA
-
-## Ejercicio 5
-
-Cread un certi cado para la solicitud anterior utili- zando la CA creada.
-
-## Ejercicio 6
-Emplead las opciones -text y -noout para mostrar los valores de todos los certi cados y solicitudes de los puntos anteriores, incluyendo el certi cado ra z que habr a sido creado junto con la CA
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Para generar los parametros usaré, usando primos de 128 bits:
-
-    openssl dsaparam -out sharedDSA.pem 128
-
-Para ver los valores, se pueden visualizar con:
-
-    openssl dsaparam -in sharedDSA.pem -text
+    /usr/lib/ssl/misc/CA.pl -newca
 
 ![Ejercicio 1](img/ejercicio1.png)
 
+Añadimos el nombre y nos generará un directorio de la CA.
+
+![Ejercicio 1_1](img/ejercicio1_1.png)
+
 ## Ejercicio 2
 
-Generad dos parejas de claves para los parametros anteriores llamados nombreDSAkey.pem y apellidoDSA.key, no hace falta protegerlo por contraseña.
+Cread una solicitud de certicado que incluya la generación de claves en la misma.
 
-Para generar las claves debemos usar openssl dsaparam,
+Primero debemos generar las claves de RSA para poder firmar el certificado, en mi caso utilizaré RSA de 2048 bits.
 
-    openssl dsaparam -in sharedDSA.pem -genkey -out cristianDSAkey.pem
-    openssl dsaparam -in sharedDSA.pem -genkey -out velezDSAkey.pem
+    openssl genrsa -out clave.key 2048
+
+Ahora una vez tenemos la clave podemos generar y firmar la solicitud, en este caso para un año.
+
+    openssl req -x509 -new -nodes -key clave.key -days 365 -out cert.pem
+
+![Ejercicio 2](img/ejercicio2.png)
 
 ## Ejercicio 3
 
-"Extraed" la clave privada de los archivos, esta debe estar protegida por contraseña. Visualiza el contenido
+Cread un certicado para la solicitud anterior empleando la CA creada en el primer punto.
 
-    openssl dsa -in cristianDSAkey.pem -out cristianDSApriv.pem -aes128
-    openssl dsa -in velezDSAkey.pem -out velezDSApriv.pem -aes128
+Para poder firmar la solicitud que hemos ido generando en el ejercicio 1 y 2, usaré el script CA.pl:
 
-De esta manera obtenemos la clave privada de ambos archivos, ahora si queremos visualizarla:
+     /usr/lib/ssl/misc/CA.pl -signreq
 
-    openssl dsa -in cristianDSApriv.pem -text
-    openssl dsa -in velezDSApriv.pem -text
+Ahora podemos exportar el certificado con:
 
-Se pueden observar los parametros y su clave privada (visualizo solo cristianDSApriv.pem):
-
-![Ejercicio 3](img/ejercicio3.png)
+     /usr/lib/ssl/misc/CA.pl -pkcs12 "CertificadoP4"
 
 ## Ejercicio 4
+Cread una solicitud de certicado para cualquiera de las claves que habeis generado en las prácticas anteriores, excepto las RSA.
 
-Extraed la clave publica de los archivos, esta no debe estar protegida por contraseña. Visualiza el contenido
+En este ejercicio he preferido usar las claves DSA para generar la solicitud de certificado, para ello tambien usaré el script de CA.pl
+En la practica 3 generé los parametros necesarios para generar una clave DSA, por tanto reutilizaré el fichero de los parametros de la clave sharedDSA.
 
-Para generar la clave public usamos openssl dsa,
 
-    openssl dsa -in cristianDSAkey.pem -out cristianDSApub.pem -pubout
-    openssl dsa -in velezDSAkey.pem -out velezDSApub.pem -pubout
+    openssl req -out newreq.pem -newkey dsa:sharedDSA.pem
 
-Para visualizarlas usaré el comando cat,
+En caso de no tener el fichero anterior, se puede generar de la siguiente manera:
+
+    openssl dsaparam -out sharedDSA.pem 2048
 
 ![Ejercicio 4](img/ejercicio4.png)
 
 ## Ejercicio 5
 
-Calcular el valor hash del archivo nombreDSApub.pem usando sha384 con salida hexadecimal con bloques de dos caracteres separados por puntos.
-Mostrad los valores por salida estandar y guardadlo en nombreDSApub.sha384
+Cread un certicado para la solicitud anterior utilizando la CA creada.
 
-    openssl sha384 -c -hex cristianDSApub.pem
+Para poder generar el certificado del ejercicio anterior usaré
 
-De esta manera nos muestra la salida por pantalla, para guardarlo usamos:
+    /usr/lib/ssl/misc/CA.pl -signreq
 
-    openssl sha384 -c -hex -out cristianDSApub.sha384 cristianDSApub.pem
+Una vez firmada la solicitud obtnemos:
 
-La salida de mi archivo cristianDSApub.pem es:
+![Ejercicio 5](img/ejercicio5.png)
 
-    SHA384(cristianDSApub.pem)= 29:df:5f:5b:02:7f:57:3d:67:7d:a1:9d:fb:d8:0e:58:b9:59:a2:3c:35:5d:f3:88:7e:1c:b5:ae:4d:d9:92:aa:8a:6d:f5:fb:ba:1b:d8:f3:bb:3b:0b:3f:c7:3a:dd:a8
+Donde podemos observar que usamos la clave pública DSA y los parametros de la clave.
+
 
 ## Ejercicio 6
+Emplead las opciones -text y -noout para mostrar los valores de todos los certicados y solicitudes de los puntos anteriores, incluyendo el certicado raiz que habr a sido creado junto con la CA
 
-Calcular el valor hash del archivo apellidoDSApub.pem usando una función hash de 160 bits con salida binaria. Guarda el hash en apellidoDSApub.algoritmo y muestra su contenido.
+Para poder mostrar los valores de las solicitudes debemos usar el comando :
 
-Utilizaré rmd160,
-
-    openssl rmd160 -binary -out velezDSApub.rm160 velezDSApub.pem
-
-Su contenido es el siguiente:
-
-![Ejercicio 6](img/ejercicio6.png)
-
-
-## Ejercicio 7
-
-Generad el valor HMAC del archivo sharedDSA.pem con clave 12345 mostrandolo por pantalla.
-
-Para generar el valor HMAC tambien necesitamos la función hash, en mi caso sha1:
-
-    openssl dgst -sha1 -hmac '12345' sharedDSA.pem
-
-Esto me muestra por pantalla:
-
-    HMAC-SHA1(sharedDSA.pem)= f5e0971e799aca5a481a7513d1ab8fac5a6ccad6
-
-## Ejercicio 8
+    openssl req -in <request> -noout -text
