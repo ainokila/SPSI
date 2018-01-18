@@ -1,9 +1,5 @@
 # Práctica 5
 
-### Cristian Vélez Ruiz
-### 23296392-Z
-### SPSI
-
 ## Ejercicio 1
 
 Para la funcion H, realizad, en el lenguaje de programación que queráis, una función que tome como entrada un texto y un numero de bits b. Creará un id que concatene la cadena de n bits con el texto. Pegará a ese id las cadenas aleatorias hasta conseguir que tenga los b primeros bits a 0. La salida será el id, la cadena x, el valor del hash y el numero de intentos.
